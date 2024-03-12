@@ -2,6 +2,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken"
 import { User } from "../models/user.model.js";
+
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 global.require = require;
@@ -25,7 +26,7 @@ const verifyJWT = asyncHandler( async (req, res, next) => {
      const user = await User.findById(decodedToken?._id).select("-password -refreshToken")
     //  console.log(user);
      if (!user) {
-         throw new ApiError(401, "Invalid refreshToken");
+         throw new ApiError(401, "Invalid refreshToken**");
      }
  
      req.user = user;
