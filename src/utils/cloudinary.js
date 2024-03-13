@@ -36,5 +36,15 @@ const uploadOnCloudinary = async (localFilePath) => {
 }
 
 
+const deleteFromCloudinary = async (cloudinaryUrl) => {
+    try {
+        cloudinary.uploader
+        .destroy(cloudinaryUrl)
+        // .then(result => console.log(result));
+    } catch (error) {
+        console.log(error || "cloudinary delete incomplete");  //removes fild from the local server storage as the file upload failed
+    }
+}
 
-export {uploadOnCloudinary}
+
+export {uploadOnCloudinary, deleteFromCloudinary}
