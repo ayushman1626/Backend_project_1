@@ -334,6 +334,42 @@ const UpdateAvatar = asyncHandler(async (req, res) => {
 })
 
 
+const UpdateCoverImage = asyncHandler(async (req, res) => {
+    const coverImageLopcalPath = req?.file?.path;
+    if (!coverImageLopcalPath) {
+        throw new ApiError(400, "avatar filed is required")
+    }
+
+    const coverImage = await uploadOnCloudinary(coverImageLopcalPath);
+
+    if(!coverImage){
+        throw new ApiError("500","something went wrong while uploading on cloudinary")
+    }
+
+    await deleteFromCloudinary(extractPublicId(req.user.coverImage))
+    // console.log((extractPublicId(req.user.avatar)));
+
+    const coverImageUrl = coverImage.url;
+
+    const user = await User.findByIdAndUpdate(req?.user?._id,
+        {
+            $set: {
+                coverImage : coverImageUrl
+            }
+        },
+        {
+            new: true
+        }
+    ).select("-password -refreshToken")
+
+    return res.status(200)
+    .json(
+        new ApiResponse(200,{user},"coverimage succesfully updated")
+    )
+    
+})
+
+
 
 
 
@@ -345,5 +381,6 @@ export {
     changePassword,
     getCurrentUser,
     updateDetails,
-    UpdateAvatar
+    UpdateAvatar,
+    UpdateCoverImage
 }

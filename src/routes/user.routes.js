@@ -7,7 +7,8 @@ import {
     changePassword,
     getCurrentUser,
     updateDetails,
-    UpdateAvatar
+    UpdateAvatar,
+    UpdateCoverImage
 } from "../controllers/user.controller.js";
 
 import { upload } from "../middlewares/multer.middelware.js";
@@ -40,6 +41,7 @@ router.route("/get-current-user").post(verifyJWT,getCurrentUser)
 router.route("/update-details").post(verifyJWT,updateDetails)
 
 router.route("/update-avatar").post(verifyJWT,upload.single("avatar"),UpdateAvatar)
+router.route("/update-coverimage").post(verifyJWT,upload.single("coverImage"),UpdateCoverImage)
 
 //  http://localhost:8000/api/v1/users/register
 
